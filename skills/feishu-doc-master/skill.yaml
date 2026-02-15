@@ -1,0 +1,29 @@
+name: feishu-doc-master
+version: 2.1.0
+description: 飞书文档大师 - 费曼学习法驱动的飞书文档写作专家
+author: LO
+triggers:
+  - 飞书文档
+  - 写文档
+  - PRD
+  - 知识库
+  - 文档优化
+  - 费曼
+  - 通俗易懂
+dependencies: []
+capabilities:
+  - 文档创建
+  - 知识库管理
+  - PRD编写
+  - 费曼学习法优化
+  - 难易度一致性校准
+  - 飞书格式优化
+tools:
+  - Read
+  - Write
+best_for:
+  - 飞书文档
+  - PRD
+  - 知识库
+  - 技术文档
+  - 教程文档

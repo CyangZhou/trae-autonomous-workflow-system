@@ -1,0 +1,16 @@
+name: neuro-bridge
+version: "1.0.0"
+description: 通过本地模型直接控制 Windows 操作系统，支持深度推理、记忆管理、MCP服务器管理、代码搜索与理解、文件修改与验证、浏览器自动化
+triggers:
+  - 系统控制
+  - 键鼠模拟
+  - 截图分析
+  - neuro bridge
+  - 本地模型
+capabilities:
+  - 深度推理
+  - 记忆管理
+  - MCP服务器管理
+  - 代码搜索与理解
+  - 文件修改与验证
+  - 浏览器自动化

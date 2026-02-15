@@ -1,0 +1,153 @@
+name: 智能技能调用工作流
+description: 演示工作流中调用技能的完整流程，包含技能匹配、技能调用、结果整合
+version: "1.0.0"
+created_at: "2026-02-13"
+category: "skill-integration"
+
+triggers:
+  keywords:
+    - 智能开发
+    - 技能工作流
+    - 自动匹配
+  patterns:
+    - "智能.*开发"
+    - "技能.*调用"
+    - "自动.*匹配"
+
+variables:
+  user_input: ""
+  matched_skills: []
+  execution_results: {}
+
+steps:
+  - id: 1
+    name: 项目上下文分析
+    action: run_command
+    description: 分析项目类型和可用资源
+    params:
+      command: |
+        echo "=== 📊 项目上下文分析 ==="
+        echo ""
+        echo "检测项目类型..."
+        echo "扫描可用工作流..."
+        echo "扫描可用技能..."
+        echo ""
+        echo "✅ 分析完成"
+      save_as: context_analysis
+      timeout: 10
+
+  - id: 2
+    name: 🆕 调用技能匹配器
+    action: skill_invoke
+    description: 根据任务描述匹配最佳技能
+    params:
+      skill_name: "skill-matcher"
+      context:
+        task_description: "{{user_input}}"
+        project_type: "{{project_type}}"
+      save_output: true
+    output_key: matched_skills
+
+  - id: 3
+    name: 🆕 调用智能工作流助手
+    action: skill_invoke
+    description: 获取工作流和技能推荐
+    params:
+      skill_name: "intelligent-workflow-assistant"
+      context:
+        task: "{{user_input}}"
+        complexity_threshold: 6
+      save_output: true
+    output_key: workflow_recommendation
+
+  - id: 4
+    name: 条件分支 - 选择执行模式
+    action: condition
+    description: 根据复杂度选择执行模式
+    params:
+      condition: "{{workflow_recommendation.complexity_score}} >= 6"
+      on_true:
+        action: skill_invoke
+        params:
+          skill_name: "swarm-orchestrator"
+          context:
+            task: "{{user_input}}"
+            mode: "swarm"
+          save_output: true
+        output_key: swarm_result
+      on_false:
+        action: skill_invoke
+        params:
+          skill_name: "workflow-runner"
+          context:
+            workflow: "{{workflow_recommendation.recommended_workflows[0].name}}"
+            mode: "single_agent"
+          save_output: true
+        output_key: single_agent_result
+
+  - id: 5
+    name: 结果整合
+    action: run_command
+    description: 整合所有执行结果
+    params:
+      command: |
+        echo "=== 📦 结果整合 ==="
+        echo ""
+        echo "匹配的技能: {{matched_skills}}"
+        echo "推荐的工作流: {{workflow_recommendation.recommended_workflows}}"
+        echo "执行模式: {{workflow_recommendation.execution_mode}}"
+        echo ""
+        echo "✅ 整合完成"
+      save_as: integration_result
+      timeout: 10
+
+  - id: 6
+    name: 完成通知
+    action: notify
+    description: 向用户报告执行结果
+    params:
+      message: |
+        🎉 智能技能调用工作流完成！
+        
+        📊 执行摘要:
+        - 匹配技能数: {{matched_skills.length}}
+        - 推荐工作流: {{workflow_recommendation.recommended_workflows.length}}
+        - 执行模式: {{workflow_recommendation.execution_mode}}
+        - 复杂度分数: {{workflow_recommendation.complexity_score}}
+        
+        🔧 使用的技能:
+        {{#each matched_skills}}
+        - {{this.name}} (分数: {{this.score}})
+        {{/each}}
+        
+        📁 生成文件:
+        - 执行报告: output/skill-workflow-report.md
+        - 知识沉淀: .trae/knowledge/
+
+error_handling:
+  skill_not_found:
+    action: fallback
+    message: "技能未找到，尝试使用默认工作流"
+    fallback:
+      action: run_command
+      params:
+        command: "echo '使用默认流程执行'"
+  
+  execution_timeout:
+    action: retry
+    max_retries: 3
+    retry_delay: 5
+
+validation_rules:
+  - name: 技能匹配验证
+    description: 确保至少匹配到一个技能
+    critical: false
+    
+  - name: 工作流推荐验证
+    description: 确保返回了有效的执行模式
+    critical: true
+
+metadata:
+  author: "autonomous-agent"
+  version: "1.0.0"
+  tags: ["skill", "workflow", "integration", "automation"]

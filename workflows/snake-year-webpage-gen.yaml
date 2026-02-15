@@ -1,0 +1,18 @@
+description: Generate interactive Snake Year celebration webpage
+name: snake-year-webpage-gen
+skills:
+- autonomous-agent
+- swarm-orchestrator
+steps:
+- Swarm Plan
+- Canvas Impl
+- Cyberpunk Style
+triggers:
+  complexity_range:
+    max: 10
+    min: 6
+  keywords:
+  - Snake Year
+  - New Year
+  - Webpage
+version: 1.0.0

@@ -1,0 +1,13 @@
+name: skill-market-hub
+version: "1.0.0"
+description: 技能市场聚合器 - 从多个开源技能市场和GitHub仓库搜索、发现、下载AI技能到本地项目
+triggers:
+  - 技能市场
+  - 下载技能
+  - skill market
+  - 发现技能
+capabilities:
+  - 搜索技能
+  - 发现热门
+  - 一键下载
+  - 多源支持

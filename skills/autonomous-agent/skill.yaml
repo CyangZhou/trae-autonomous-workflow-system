@@ -1,0 +1,345 @@
+name: autonomous-agent
+version: "8.1.0"
+description: 自主执行层 v8.1 (Parallel Swarm Edition) - 真正的并行蜂群、独立上下文、效率提升3-5x
+
+# 🚨 强制检查点配置
+checkpoints:
+  enabled: true
+  mandatory: true
+  fail_on_missing: true
+  
+  required_checkpoints:
+    - id: "checkpoint_1"
+      name: "初始化完成"
+      description: "执行 Python 初始化命令"
+      required_output: "[检查点1] ✅ 初始化完成"
+      
+    - id: "checkpoint_2"
+      name: "任务解析完成"
+      description: "分析核心目标、复杂度、执行模式、置信度、推荐智能体"
+      required_output: "[检查点2] ✅ 任务解析完成"
+      
+    - id: "checkpoint_3"
+      name: "智能推荐完成"
+      description: "推荐工作流和技能"
+      required_output: "[检查点3] ✅ 智能推荐完成"
+      
+    - id: "checkpoint_4"
+      name: "执行模式选择完成"
+      description: "Swarm 并行执行或 Solo 顺序执行"
+      required_output: "[检查点4] ✅ 执行模式选择完成"
+      
+    - id: "checkpoint_5"
+      name: "验证完成"
+      description: "语法检查、功能测试、目标验证"
+      required_output: "[检查点5] ✅ 验证完成"
+    
+    - id: "checkpoint_6"
+      name: "反思与进化完成"
+      description: "执行 Reflexion Loop，更新记忆库"
+      required_output: "[检查点6] ✅ 反思与进化完成"
+      
+    - id: "checkpoint_7"
+      name: "工作流沉淀完成"
+      description: "保存执行经验到 .trae/knowledge/"
+      required_output: "[检查点7] ✅ 工作流沉淀完成"
+
+  # 禁止行为
+  forbidden_actions:
+    - "跳过任何检查点"
+    - "在完成步骤1-4之前开始编码"
+    - "忽略 intelligent-workflow-assistant 的返回结果"
+    - "省略检查点输出"
+    - "在低置信度下跳过主动调研"
+    - "伪并行（顺序调用 Task 工具）"
+
+# 🆕 蜂群模式配置 (v8.1)
+swarm:
+  enabled: true
+  
+  # 触发条件
+  trigger_conditions:
+    min_complexity: 6          # 复杂度 >= 6 触发蜂群
+    multi_file: true           # 多文件修改
+    multi_module: true         # 多模块修改
+    explicit_request: true     # 用户明确要求并行
+    
+  # 并行执行配置
+  parallel:
+    enabled: true
+    max_concurrent_tasks: 5    # 最大并行任务数
+    use_trae_task: true        # 使用 Trae Task 工具
+    
+  # 智能体注册表
+  agent_registry: ".trae/swarm/agent_registry.json"
+  
+  # 智能体选择规则
+  agent_selection:
+    auto_select: true          # 自动选择智能体
+    prefer_builtin: true       # 优先使用内置智能体
+    allow_custom: true         # 允许使用自定义智能体
+    allow_user_specify: true   # 允许用户手动指定
+    max_agents_per_task: 5     # 每个任务最多使用的智能体数
+    
+  # Worker 角色映射 (Trae Task subagent_type)
+  # 基础角色 - 开发类
+  workers:
+    researcher:
+      subagent_type: "search"
+      description: "调研和验证标准制定"
+      
+    coder:
+      subagent_type: "backend-architect"
+      description: "代码实现"
+      
+    frontend:
+      subagent_type: "frontend-implementation-expert"
+      description: "前端界面实现"
+      
+    tester:
+      subagent_type: "testing-validation-expert"
+      description: "测试和验证"
+      
+    architect:
+      subagent_type: "architect-design-expert"
+      description: "架构设计"
+      
+    devops:
+      subagent_type: "release-ops-expert"
+      description: "部署和发布"
+  
+  # 🆕 扩展角色 - 量化交易类
+  quant_workers:
+    alpha_picker:
+      subagent_type: "alpha-picker"
+      description: "A股选股智能体"
+      
+    factor_validator:
+      subagent_type: "factor-validator"
+      description: "因子验证智能体"
+      
+    market_analyzer:
+      subagent_type: "a-share-market-analyzer"
+      description: "市场分析智能体"
+      
+    stock_ranker:
+      subagent_type: "stock-ranker"
+      description: "股票排序智能体"
+  
+  # 🆕 扩展角色 - 内容创作类
+  content_workers:
+    novel_architect:
+      subagent_type: "priest-style-architect"
+      description: "小说架构智能体"
+      
+    prompt_crafter:
+      subagent_type: "prompt-crafter"
+      description: "提示词工匠智能体"
+  
+  # 🆕 扩展角色 - 技能开发类
+  skill_workers:
+    skill_forge:
+      subagent_type: "trae-skill-forge"
+      description: "技能锻造智能体"
+      
+    agent_forge:
+      subagent_type: "agent-forge-master"
+      description: "智能体锻造大师"
+  
+  # 🆕 扩展角色 - 专业领域类
+  domain_workers:
+    tcm_master:
+      subagent_type: "tcm-master-brain"
+      description: "中医大脑智能体"
+      
+    laozi_sage:
+      subagent_type: "laozi-sage"
+      description: "老子智慧智能体"
+      
+    pattern_miner:
+      subagent_type: "symbolic-pattern-miner"
+      description: "符号模式挖掘智能体"
+  
+  # 🆕 任务类型到智能体映射
+  task_type_mapping:
+    web_development: ["search", "frontend-implementation-expert", "testing-validation-expert"]
+    api_development: ["api-specification-expert", "backend-architect", "testing-validation-expert"]
+    data_analysis: ["search", "backend-architect", "frontend-implementation-expert"]
+    automation: ["search", "backend-architect", "testing-validation-expert"]
+    mobile_app: ["search", "architect-design-expert", "backend-architect", "testing-validation-expert"]
+    quantitative_trading: ["alpha-picker", "factor-validator", "a-share-market-analyzer", "stock-ranker"]
+    content_creation: ["priest-style-architect", "prompt-crafter"]
+    devops: ["release-ops-expert", "performance-diagnostic-expert"]
+    requirement_analysis: ["requirement-decomposer", "architect-design-expert"]
+    skill_development: ["trae-skill-forge", "agent-forge-master"]
+
+triggers:
+  - "开始"
+  - "继续"
+  - "自主执行"
+  - "自动规划"
+  - "自动修复"
+  - "autonomous"
+  - "agent执行"
+  - "智能工作流"
+  - "智能路由"
+  - "蜂群"
+  - "并行执行"
+  - "swarm"
+
+category: "automation"
+tags:
+  - "autonomous"
+  - "routing"
+  - "validation"
+  - "self-healing"
+  - "workflow"
+  - "knowledge-research"
+  - "parallel"
+  - "swarm"
+
+# 知识调研配置
+knowledge_research:
+  enabled: true
+  mandatory: true
+  
+  auto_init:
+    enabled: true
+    check_on_start: true
+    create_if_missing: true
+    
+  triggers:
+    low_confidence: true
+    new_tech: true
+    version_upgrade: true
+    industry_specific: true
+    cross_domain: true
+    no_workflow: true
+  
+  evolution:
+    reflexion_enabled: true
+    memory_dir: ".trae/memory"
+    min_confidence_threshold: 0.8
+
+  sources:
+    - type: "official_docs"
+      priority: 0
+      description: "官方文档"
+      
+    - type: "industry_standards"
+      priority: 1
+      description: "行业标准/规范"
+      
+    - type: "github"
+      priority: 2
+      description: "GitHub仓库、Issues、Discussions"
+      
+    - type: "tech_community"
+      priority: 3
+      description: "技术社区"
+
+  storage:
+    base_dir: ".trae/knowledge"
+    index_file: ".trae/knowledge/index.json"
+
+# 智能路由配置
+routing:
+  task_patterns:
+    standard:
+      patterns:
+        - "安全扫描"
+        - "代码审查"
+        - "测试覆盖率"
+        - "依赖检查"
+        - "性能测试"
+      action: "workflow"
+      require_research: false
+      
+    repetitive:
+      patterns:
+        - "每天"
+        - "每周"
+        - "定时"
+        - "自动"
+        - "周期"
+      action: "workflow"
+      require_research: false
+      
+    one_time:
+      patterns:
+        - "帮我写"
+        - "修改这个"
+        - "优化一下"
+        - "修复"
+        - "创建"
+      action: "builtin"
+      require_research: true
+      
+    complex:
+      patterns:
+        - "重构"
+        - "架构"
+        - "系统设计"
+        - "迁移"
+        - "集成"
+        - "高并发"
+        - "多模块"
+      action: "swarm"
+      require_research: true
+
+# 验证配置
+validation:
+  enabled: true
+  strict: true
+  
+  code_quality:
+    - name: "语法检查"
+      type: "lint"
+      fail_action: "block"
+      
+    - name: "类型检查"
+      type: "typecheck"
+      fail_action: "block"
+
+  runtime:
+    - name: "功能测试"
+      type: "functional"
+      fail_action: "block"
+
+  goal_achievement:
+    enabled: true
+    check_original_goal: true
+    verify_functionality: true
+
+# 执行配置
+execution:
+  router_script: ".trae/workflows/smart_router.py"
+  agent_script: ".trae/skills/autonomous-agent/agent.py"
+  
+  commands:
+    analyze: "python {agent_script} analyze \"{task}\""
+    execute: "python {agent_script} execute \"{task}\""
+    validate: "python {agent_script} validate"
+
+# 工作流集成
+integration:
+  workflow_manager: ".trae/workflows/workflow_manager_v2.py"
+  workflow_dirs:
+    - ".trae/workflows"
+
+# 输出配置
+output:
+  report_dir: "output"
+  report_format: "markdown"
+  include_validation: true
+  include_execution_log: true
+  include_knowledge_research: true
+
+# 自动执行配置
+auto_execute:
+  on_trigger: true
+  auto_heal: true
+  max_heal_attempts: 999
+  never_stop: true
+  silent_mode: true
+  continue_on_research_failure: true

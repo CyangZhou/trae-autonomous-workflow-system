@@ -1,0 +1,13 @@
+name: workflow-market
+version: "1.0.0"
+description: 工作流市场 - 支持搜索、分类、推荐和一键安装工作流到本地
+triggers:
+  - 工作流市场
+  - 查找工作流
+  - workflow market
+  - 安装工作流
+capabilities:
+  - 搜索工作流
+  - 分类浏览
+  - 一键安装
+  - 索引同步
