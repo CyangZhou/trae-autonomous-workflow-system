@@ -224,24 +224,26 @@ def update_neuro_bridge_skill() -> Dict:
     更新 neuro-bridge 技能
     从项目文档生成最新的 SKILL.md 并直接写入 .trae/skills/neuro-bridge/
     """
-    project_dir = Path("e:/traework/00 ai助手研发")
-    user_guide = project_dir / "docs" / "NEURO_BRIDGE_USER_GUIDE.md"
+    # 使用环境变量或默认路径
+    project_dir_env = os.environ.get('NEURO_BRIDGE_PROJECT_DIR')
+    if project_dir_env:
+        project_dir = Path(project_dir_env)
+        user_guide = project_dir / "docs" / "NEURO_BRIDGE_USER_GUIDE.md"
+    else:
+        # 如果没有设置环境变量，使用默认的技能模板
+        user_guide = None
     
-    if not user_guide.exists():
-        return {
-            "status": "error",
-            "message": f"User guide not found at {user_guide}"
-        }
+    if user_guide and not user_guide.exists():
+        user_guide = None
     
-    # 读取项目文档
-    try:
-        with open(user_guide, 'r', encoding='utf-8') as f:
-            doc_content = f.read()
-    except Exception as e:
-        return {
-            "status": "error",
-            "message": f"Failed to read user guide: {str(e)}"
-        }
+    # 读取项目文档（如果存在）
+    doc_content = ""
+    if user_guide:
+        try:
+            with open(user_guide, 'r', encoding='utf-8') as f:
+                doc_content = f.read()
+        except Exception as e:
+            doc_content = ""
     
     # 生成最新的技能描述
     skill_content = '''---

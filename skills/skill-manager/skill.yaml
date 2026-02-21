@@ -1,6 +1,9 @@
 name: skill-manager
 version: "1.0.0"
 description: 技能管理器 - 安装、更新、卸载和管理 AI 技能
+entry: skill_manager.py
+author: "Trae Team"
+dependencies: []
 triggers:
   - 技能管理
   - 安装技能

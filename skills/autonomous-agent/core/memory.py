@@ -1,15 +1,20 @@
 """
-Memory 笔记系统 v1.1
+Memory 笔记系统 v1.0
+动态路径解析，支持跨项目移植
+使用统一路径模块
 """
 
 import json
 import hashlib
 import re
+import os
 from pathlib import Path
 from datetime import datetime
 from typing import Optional, Dict, List, Any, Tuple
 from dataclasses import dataclass
 from enum import Enum
+
+from .paths import resolve_project_root, get_memory_dir, ensure_dir
 
 
 class MemoryType(Enum):
@@ -43,9 +48,12 @@ class MemoryEntry:
 
 
 class MemoryManager:
-    def __init__(self, memory_dir: str = '.trae/memory'):
-        self.memory_dir = Path(memory_dir)
-        self._init_directories()
+    def __init__(self, memory_dir: str = None):
+        if memory_dir:
+            self.memory_dir = Path(memory_dir)
+        else:
+            self.memory_dir = get_memory_dir()
+        ensure_dir(self.memory_dir)
         self._index_cache = None
     
     def _init_directories(self):

@@ -1,21 +1,22 @@
 ---
 name: feishu-doc-master
-version: "2.1.0"
-description: 飞书文档大师 v2.1 -触发词：“飞书”、“云文档”、“群话题”
+version: "1.0.0"
+description: 飞书文档大师，费曼学习法深度集成，将复杂内容转化为通俗易懂的飞书文档。
+tags: ["feishu", "documentation", "feynman", "prd", "knowledge-base"]
 triggers:
-  - 飞书文档
+  - 飞书
+  - 云文档
+  - 群话题
   - PRD文档
   - 知识库文档
   - 文档优化
-  - 费曼
-  - 通俗易懂
 priority: 50
 ---
 
-# 飞书文档大师 v2.1 (Feynman Edition)
+# 飞书文档大师 v1.0 (Feynman Edition)
 
 ---
-**版本**: 2.1.0  
+**版本**: 1.0.0  
 **最后更新**: 2026-02-15  
 **核心升级**: 
 - 费曼学习法深度集成

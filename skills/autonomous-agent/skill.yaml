@@ -1,6 +1,6 @@
 name: autonomous-agent
-version: "8.1.0"
-description: 自主执行层 v8.1 (Parallel Swarm Edition) - 真正的并行蜂群、独立上下文、效率提升3-5x
+version: "1.0.0"
+description: 自主执行总调度器 v1.0 - 强制执行版。触发词：开始、继续、自主执行、autonomous、蜂群。支持5场景决策树、3维度质量把关、Skill自动发现、交付文档生成。
 
 # 🚨 强制检查点配置
 checkpoints:
@@ -9,40 +9,40 @@ checkpoints:
   fail_on_missing: true
   
   required_checkpoints:
+    - id: "checkpoint_0"
+      name: "知识边界感知"
+      description: "判断思考模式 (Fast/Slow/Knowledge) 和置信度"
+      required_output: "[检查点0] 知识边界感知"
+
     - id: "checkpoint_1"
       name: "初始化完成"
       description: "执行 Python 初始化命令"
-      required_output: "[检查点1] ✅ 初始化完成"
+      required_output: "[检查点1] 初始化完成"
       
     - id: "checkpoint_2"
-      name: "任务解析完成"
-      description: "分析核心目标、复杂度、执行模式、置信度、推荐智能体"
-      required_output: "[检查点2] ✅ 任务解析完成"
+      name: "任务拆解完成"
+      description: "分析核心目标、复杂度、执行模式"
+      required_output: "[检查点2] 任务拆解完成"
       
     - id: "checkpoint_3"
-      name: "智能推荐完成"
-      description: "推荐工作流和技能"
-      required_output: "[检查点3] ✅ 智能推荐完成"
+      name: "执行阶段"
+      description: "执行子任务 (Swarm/Workflow/Plan)"
+      required_output: "[检查点3] 执行阶段"
       
     - id: "checkpoint_4"
-      name: "执行模式选择完成"
-      description: "Swarm 并行执行或 Solo 顺序执行"
-      required_output: "[检查点4] ✅ 执行模式选择完成"
-      
-    - id: "checkpoint_5"
       name: "验证完成"
       description: "语法检查、功能测试、目标验证"
-      required_output: "[检查点5] ✅ 验证完成"
+      required_output: "[检查点4] 验证完成"
+      
+    - id: "checkpoint_5"
+      name: "交付完成"
+      description: "生成交付文档和文件"
+      required_output: "[检查点5] 交付完成"
     
     - id: "checkpoint_6"
-      name: "反思与进化完成"
+      name: "进化完成"
       description: "执行 Reflexion Loop，更新记忆库"
-      required_output: "[检查点6] ✅ 反思与进化完成"
-      
-    - id: "checkpoint_7"
-      name: "工作流沉淀完成"
-      description: "保存执行经验到 .trae/knowledge/"
-      required_output: "[检查点7] ✅ 工作流沉淀完成"
+      required_output: "[检查点6] 进化完成"
 
   # 禁止行为
   forbidden_actions:
@@ -52,37 +52,114 @@ checkpoints:
     - "省略检查点输出"
     - "在低置信度下跳过主动调研"
     - "伪并行（顺序调用 Task 工具）"
+    - "中途停止执行"
+    - "等待用户确认（除非明确要求）"
+    - "选择不执行"
 
-# 🆕 蜂群模式配置 (v8.1)
+# 🚨 强制触发配置
+trigger_protocol:
+  mandatory: true
+  no_exceptions: true
+  immediate_execution: true
+  
+  trigger_words:
+    - "开始"
+    - "继续"
+    - "自主执行"
+    - "自动执行"
+    - "自动规划"
+    - "自动修复"
+    - "autonomous"
+    - "agent执行"
+    - "智能工作流"
+    - "智能路由"
+    - "蜂群"
+    - "并行执行"
+    - "swarm"
+  
+  on_trigger:
+    action: "INVOKE_SKILL_IMMEDIATELY"
+    prohibited_actions:
+      - "chat"
+      - "explain"
+      - "plan"
+      - "wait_for_context"
+      - "ask_for_clarification"
+
+# 🚨 强制执行配置
+execution_protocol:
+  continuous: true
+  no_stopping: true
+  
+  on_analyze_return:
+    action: "CONTINUE_EXECUTING"
+    prohibited_actions:
+      - "stop"
+      - "wait_for_confirmation"
+      - "ask_user"
+  
+  swarm_mode:
+    parallel_execution: true
+    single_message_launch: true
+    forbidden: "sequential_task_calls"
+  
+  solo_mode:
+    sequential_execution: true
+    no_interruption: true
+  
+  final_steps_mandatory:
+    - "quality_check"
+    - "delivery_generation"
+    - "memory_save"
+
+# 🚨 确认协议配置
+confirmation_protocol:
+  default: false
+  only_required_for:
+    - "destructive_operations"
+    - "external_api_with_cost"
+    - "explicit_requires_confirmation_true"
+  
+  not_required_for:
+    - "code_generation"
+    - "code_modification"
+    - "file_creation"
+    - "file_editing"
+    - "testing"
+    - "validation"
+    - "documentation"
+    - "workflow_execution"
+    - "skill_invocation"
+
+# 🆕 蜂群模式配置 (v1.0)
 swarm:
   enabled: true
   
   # 触发条件
   trigger_conditions:
-    min_complexity: 6          # 复杂度 >= 6 触发蜂群
-    multi_file: true           # 多文件修改
-    multi_module: true         # 多模块修改
-    explicit_request: true     # 用户明确要求并行
+    min_complexity: 6
+    multi_file: true
+    multi_module: true
+    explicit_request: true
     
   # 并行执行配置
   parallel:
     enabled: true
-    max_concurrent_tasks: 5    # 最大并行任务数
-    use_trae_task: true        # 使用 Trae Task 工具
+    max_concurrent_tasks: 5
+    use_trae_task: true
     
   # 智能体注册表
-  agent_registry: ".trae/swarm/agent_registry.json"
+  agent_registry: "自动化工作流组件库/swarm/agent_registry.json"
   
   # 智能体选择规则
   agent_selection:
-    auto_select: true          # 自动选择智能体
-    prefer_builtin: true       # 优先使用内置智能体
-    allow_custom: true         # 允许使用自定义智能体
-    allow_user_specify: true   # 允许用户手动指定
-    max_agents_per_task: 5     # 每个任务最多使用的智能体数
+    auto_select: true
+    prefer_builtin: true
+    allow_custom: true
+    allow_user_specify: true
+    max_agents_per_task: 5
     
   # Worker 角色映射 (Trae Task subagent_type)
-  # 基础角色 - 开发类
   workers:
     researcher:
       subagent_type: "search"
@@ -197,6 +274,7 @@ tags:
   - "knowledge-research"
   - "parallel"
   - "swarm"
+  - "mandatory-execution"
 
 # 知识调研配置
 knowledge_research:
@@ -218,7 +296,7 @@ knowledge_research:
   
   evolution:
     reflexion_enabled: true
-    memory_dir: ".trae/memory"
+    memory_dir: "自动化工作流组件库/memory"
     min_confidence_threshold: 0.8
 
   sources:
@@ -239,8 +317,8 @@ knowledge_research:
       description: "技术社区"
 
   storage:
-    base_dir: ".trae/knowledge"
-    index_file: ".trae/knowledge/index.json"
+    base_dir: ".agent/knowledge"
+    index_file: ".agent/knowledge/index.json"
 
 # 智能路由配置
 routing:
@@ -313,7 +391,7 @@ validation:
 
 # 执行配置
 execution:
-  router_script: ".trae/workflows/smart_router.py"
+  router_script: "自动化工作流组件库/workflows/smart_router.py"
   agent_script: ".trae/skills/autonomous-agent/agent.py"
   
   commands:
@@ -323,9 +401,9 @@ execution:
 
 # 工作流集成
 integration:
-  workflow_manager: ".trae/workflows/workflow_manager_v2.py"
+  workflow_manager: "自动化工作流组件库/workflows/workflow_manager_v2.py"
   workflow_dirs:
-    - ".trae/workflows"
+    - "自动化工作流组件库/workflows"
 
 # 输出配置
 output:

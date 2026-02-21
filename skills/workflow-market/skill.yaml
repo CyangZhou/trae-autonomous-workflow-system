@@ -1,6 +1,9 @@
 name: workflow-market
 version: "1.0.0"
 description: 工作流市场 - 支持搜索、分类、推荐和一键安装工作流到本地
+entry: workflow_market.py
+author: "Trae Team"
+dependencies: []
 triggers:
   - 工作流市场
   - 查找工作流

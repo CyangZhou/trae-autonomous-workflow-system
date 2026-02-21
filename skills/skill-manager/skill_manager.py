@@ -17,8 +17,8 @@ import subprocess
 CURRENT_DIR = Path(__file__).resolve().parent
 # .trae/skills
 SKILL_DIR = CURRENT_DIR.parent
-# .trae/skill-registry.json
-REGISTRY_FILE = SKILL_DIR.parent / "skill-registry.json"
+# 自动化工作流组件库/config/skill-registry.json
+REGISTRY_FILE = SKILL_DIR.parent.parent / "自动化工作流组件库" / "config" / "skill-registry.json"
 
 
 class SkillManager:
@@ -211,14 +211,17 @@ class SkillManager:
     
     def _update_neuro_bridge_skill(self) -> Dict:
         """更新 neuro-bridge 技能"""
-        project_dir = Path("e:/traework/00 ai助手研发")
-        user_guide = project_dir / "docs" / "NEURO_BRIDGE_USER_GUIDE.md"
+        # 使用环境变量或默认路径
+        project_dir = os.environ.get('NEURO_BRIDGE_PROJECT_DIR')
+        if project_dir:
+            project_dir = Path(project_dir)
+            user_guide = project_dir / "docs" / "NEURO_BRIDGE_USER_GUIDE.md"
+        else:
+            # 如果没有设置环境变量，使用默认的技能模板
+            user_guide = None
         
-        if not user_guide.exists():
-            return {
-                "status": "error",
-                "message": f"User guide not found at {user_guide}"
-            }
+        if user_guide and not user_guide.exists():
+            user_guide = None
         
         # 生成最新的技能描述
         skill_content = '''---

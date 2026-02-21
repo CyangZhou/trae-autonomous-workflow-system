@@ -1,0 +1,154 @@
+name: workflow-repair
+version: "1.0.0"
+description: 自动维修工作流引擎，支持组件扫描、调用验证、规则同步、维修报告生成。当用户需要维修工作流、同步规则、检测组件、验证依赖、扫描组件时使用
+
+triggers:
+  - "维修工作流"
+  - "同步规则"
+  - "检测组件"
+  - "验证依赖"
+  - "扫描组件"
+  - "repair workflow"
+  - "sync rules"
+  - "repair full"
+
+negative_triggers:
+  - "查看.*维修"
+  - "list.*repair"
+  - "分析.*组件"
+
+category: "automation"
+tags:
+  - "repair"
+  - "maintenance"
+  - "validation"
+  - "sync"
+  - "workflow"
+  - "self-healing"
+
+capabilities:
+  - 组件扫描
+  - 调用验证
+  - 规则同步
+  - 维修报告生成
+  - 新组件检测
+
+checkpoints:
+  enabled: true
+  mandatory: true
+  fail_on_missing: true
+  
+  required_checkpoints:
+    - id: "checkpoint_1"
+      name: "扫描完成"
+      description: "扫描所有组件（核心模块、技能、工作流、规则文件）"
+      required_output: "[检查点1] ✅ 扫描完成 - 扫描了 X 个组件"
+      
+    - id: "checkpoint_2"
+      name: "验证完成"
+      description: "验证组件间调用关系（导入有效性、导出使用情况）"
+      required_output: "[检查点2] ✅ 验证完成 - 发现 X 个问题"
+      
+    - id: "checkpoint_3"
+      name: "同步完成"
+      description: "同步项目规则文档（版本变化、架构图、模块列表）"
+      required_output: "[检查点3] ✅ 同步完成 - 规则已更新"
+      
+    - id: "checkpoint_4"
+      name: "报告生成完成"
+      description: "生成维修报告（Markdown + JSON）"
+      required_output: "[检查点4] ✅ 报告生成完成"
+
+  forbidden_actions:
+    - "跳过任何检查点"
+    - "省略检查点输出"
+    - "在扫描完成前进行验证"
+    - "忽略验证结果"
+
+trigger_protocol:
+  mandatory: true
+  immediate_execution: true
+  
+  on_trigger:
+    action: "INVOKE_SKILL_IMMEDIATELY"
+    prohibited_actions:
+      - "chat"
+      - "explain_without_action"
+
+execution:
+  agent_script: ".trae/skills/autonomous-agent/agent.py"
+  
+  commands:
+    scan:
+      description: "扫描所有组件"
+      cli: "python .trae/skills/autonomous-agent/agent.py repair scan"
+      
+    validate:
+      description: "验证调用关系"
+      cli: "python .trae/skills/autonomous-agent/agent.py repair validate"
+      
+    detect_new:
+      description: "检测新增组件"
+      cli: "python .trae/skills/autonomous-agent/agent.py repair detect-new"
+      
+    sync:
+      description: "同步项目规则"
+      cli: "python .trae/skills/autonomous-agent/agent.py repair sync"
+      
+    full:
+      description: "执行完整维修流程"
+      cli: "python .trae/skills/autonomous-agent/agent.py repair full"
+      
+    report:
+      description: "生成维修报告"
+      cli: "python .trae/skills/autonomous-agent/agent.py repair report"
+
+components:
+  scanner:
+    name: "ComponentScanner"
+    description: "扫描自动化工作流的所有组件"
+    targets:
+      - "autonomous-agent核心模块"
+      - "所有技能目录"
+      - "所有工作流文件"
+      - "项目规则文件"
+      - "配置文件"
+      
+  validator:
+    name: "DependencyValidator"
+    description: "验证组件间调用关系"
+    checks:
+      - "导入有效性"
+      - "导出使用情况"
+      - "agent.py入口完整性"
+      - "__init__.py导出完整性"
+      - "技能配置完整性"
+      
+  synchronizer:
+    name: "RulesSynchronizer"
+    description: "同步项目规则文档"
+    actions:
+      - "检测版本变化"
+      - "更新架构图"
+      - "更新模块列表"
+      - "更新版本历史"
+      
+  reporter:
+    name: "RepairReportGenerator"
+    description: "生成维修报告"
+    outputs:
+      - "Markdown报告"
+      - "JSON报告"
+
+output:
+  report_dir: ".trae/memory/repair_reports"
+  report_format: "markdown"
+  include_issues: true
+  include_new_components: true
+  include_summary: true
+
+auto_execute:
+  on_trigger: true
+  auto_sync: true
+  save_known_components: true
+  continue_on_validation_failure: true

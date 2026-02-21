@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-02-21T11:55:20.009547",
+  "total": 9,
+  "vector_path": "E:\\trae-memory\\vectors_b935d85f.index",
+  "memories": [
+    {
+      "id": "FEAT-00001",
+      "type": "success",
+      "content": "创建memory-core技能: 创建目录结构 编写SKILL.md 编写核心逻辑 测试功能",
+      "created": "2026-02-21T10:48:05.344332",
+      "intent": "创建memory-core技能",
+      "steps": [
+        "创建目录结构",
+        "编写SKILL.md",
+        "编写核心逻辑",
+        "测试功能"
+      ],
+      "tags": []
+    },
+    {
+      "id": "FEAT-00002",
+      "type": "success",
+      "content": "测试memory-core技能: 修复FAISS中文路径问题 使用全局目录存储向量索引",
+      "created": "2026-02-21T11:04:21.735804",
+      "intent": "测试memory-core技能",
+      "steps": [
+        "修复FAISS中文路径问题",
+        "使用全局目录存储向量索引"
+      ],
+      "tags": []
+    },
+    {
+      "id": "DEC-00001",
+      "type": "decision",
+      "content": "创建memory-core技能替代memory-node: memory-node没有SKILL.md不被Trae识别,且FAISS在Windows中文路径下无法写入",
+      "created": "2026-02-21T11:06:23.276517",
+      "choice": "创建memory-core技能替代memory-node",
+      "reason": "memory-node没有SKILL.md不被Trae识别,且FAISS在Windows中文路径下无法写入",
+      "tags": []
+    },
+    {
+      "id": "FEAT-00003",
+      "type": "success",
+      "content": "验证memory-core任务前检索功能: 调用retrieve命令 成功检索到相关记忆 验证向量检索正常工作",
+      "created": "2026-02-21T11:09:30.726338",
+      "intent": "验证memory-core任务前检索功能",
+      "steps": [
+        "调用retrieve命令",
+        "成功检索到相关记忆",
+        "验证向量检索正常工作"
+      ],
+      "tags": []
+    },
+    {
+      "id": "FEAT-00004",
+      "type": "success",
+      "content": "验证主动检索记忆功能: 任务开始前自动调用retrieve 检索到相关记忆 确认规则约束有效",
+      "created": "2026-02-21T11:11:19.883870",
+      "intent": "验证主动检索记忆功能",
+      "steps": [
+        "任务开始前自动调用retrieve",
+        "检索到相关记忆",
+        "确认规则约束有效"
+      ],
+      "tags": []
+    },
+    {
+      "id": "FEAT-00005",
+      "type": "success",
+      "content": "研究类似AI Agent项目: 搜索GitHub和Web 分析OpenClaw/Local-Skills-Agent/AgentKit 提取可借鉴特性",
+      "created": "2026-02-21T11:19:11.290369",
+      "intent": "研究类似AI Agent项目",
+      "steps": [
+        "搜索GitHub和Web",
+        "分析OpenClaw/Local-Skills-Agent/AgentKit",
+        "提取可借鉴特性"
+      ],
+      "tags": []
+    },
+    {
+      "id": "FEAT-00006",
+      "type": "success",
+      "content": "完成云舒系统v2.5增强方案: 研究OpenClaw/Local-Skills-Agent/AgentKit 实施Epistemic Honesty防幻觉协议 实施Heartbeat会话检查 实施三层记忆架构 实施skill_creator自主扩展增强",
+      "created": "2026-02-21T11:35:26.701833",
+      "intent": "完成云舒系统v2.5增强方案",
+      "steps": [
+        "研究OpenClaw/Local-Skills-Agent/AgentKit",
+        "实施Epistemic Honesty防幻觉协议",
+        "实施Heartbeat会话检查",
+        "实施三层记忆架构",
+        "实施skill_creator自主扩展增强"
+      ],
+      "tags": []
+    },
+    {
+      "id": "FEAT-00007",
+      "type": "success",
+      "content": "优化项目规则并消除冗余冲突: 补全任务评估方法 精简规则文本 执行规范检查与测试流程",
+      "created": "2026-02-21T11:47:58.131156",
+      "intent": "优化项目规则并消除冗余冲突",
+      "steps": [
+        "补全任务评估方法",
+        "精简规则文本",
+        "执行规范检查与测试流程"
+      ],
+      "tags": []
+    },
+    {
+      "id": "FEAT-00008",
+      "type": "success",
+      "content": "精简项目规则并融合冗余功能: 评估任务复杂度 压缩规则条目 执行规范检查与测试验证",
+      "created": "2026-02-21T11:55:20.009547",
+      "intent": "精简项目规则并融合冗余功能",
+      "steps": [
+        "评估任务复杂度",
+        "压缩规则条目",
+        "执行规范检查与测试验证"
+      ],
+      "tags": []
+    }
+  ]
+}

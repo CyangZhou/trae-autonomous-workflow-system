@@ -1,6 +1,15 @@
 ---
 name: neuro-bridge
-description: 通过本地模型（Neuro-Core）直接控制 Windows 操作系统。当需要执行键鼠模拟、截图分析、OS 级命令行或绕过沙箱限制的操作时调用。支持深度推理、记忆管理、MCP 服务器管理、代码搜索与理解、文件修改与验证、浏览器自动化等能力。
+version: "1.0.0"
+description: 通过本地模型直接控制 Windows 操作系统，支持键鼠模拟、截图分析、深度推理。
+tags: ["windows", "automation", "mcp", "local-model", "os-control"]
+triggers:
+  - 键鼠模拟
+  - 截图分析
+  - 本地模型
+  - neuro
+  - 绕过沙箱
+priority: 60
 ---
 
 # Neuro-Bridge 技能

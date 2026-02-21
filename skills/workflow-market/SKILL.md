@@ -1,6 +1,14 @@
 ---
 name: workflow-market
-description: 支持搜索、分类、推荐和一键安装工作流到本地。当用户需要查找工作流、探索新工作流、管理工作流收藏时使用。
+version: "1.0.0"
+description: 工作流市场，支持搜索、分类、推荐和一键安装工作流到本地。
+tags: ["workflow", "market", "install", "templates"]
+triggers:
+  - 工作流市场
+  - 安装工作流
+  - 搜索工作流
+  - workflow market
+priority: 35
 ---
 
 # Workflow Market - 工作流市场
@@ -26,83 +34,48 @@ description: 支持搜索、分类、推荐和一键安装工作流到本地。�
 - GitHub Discussions
 - 官方文档示例
 
-## 核心功能
+## 核心功能与使用方法 (相对路径)
 
-### 搜索 (search)
-```python
-from workflow_market import search_workflows
+### 命令行工具
 
-results = search_workflows(
-    query="CI/CD",
-    source="github",
-    category="devops"
-)
-```
-
-### 浏览 (browse)
-```python
-from workflow_market import list_workflows
-
-workflows = list_workflows(
-    category="documentation",
-    sort_by="stars"
-)
-```
-
-### 安装 (install)
-```python
-from workflow_market import install_workflow
-
-install_workflow(
-    workflow_id="github-actions-python-ci",
-    target_dir=".trae/workflows/"
-)
-```
-
-### 同步 (sync)
-```python
-from workflow_market import sync_market
-
-# 更新索引
-sync_market()
-```
-
-## 工作流分类
-
-| 分类 | 说明 | 示例 |
-|-----|------|------|
-| ci-cd | 持续集成/部署 | 自动测试、构建、发布 |
-| documentation | 文档生成 | README、API文档、博客 |
-| project-mgmt | 项目管理 | 站会、看板、报告 |
-| code-quality | 代码质量 | 审查、格式化、安全扫描 |
-| automation | 通用自动化 | 备份、同步、通知 |
-| ai-ml | AI/ML工作流 | 训练、推理、数据处理 |
-
-## 使用方法
-
-### 命令行
+#### 1. 搜索工作流
 ```bash
-# 搜索工作流
-python workflow_market.py search "python ci"
+python ./.trae/skills/workflow-market/workflow_market.py search "python ci"
+```
 
-# 按分类浏览
-python workflow_market.py browse --category ci-cd
+#### 2. 按分类浏览
+```bash
+python ./.trae/skills/workflow-market/workflow_market.py browse --category ci-cd
+```
 
-# 查看详情
-python workflow_market.py info <workflow-id>
+#### 3. 查看详情
+```bash
+python ./.trae/skills/workflow-market/workflow_market.py info <workflow-id>
+```
 
-# 安装到本地
-python workflow_market.py install <workflow-id>
+#### 4. 安装到本地
+```bash
+python ./.trae/skills/workflow-market/workflow_market.py install <workflow-id>
+```
 
-# 同步市场数据
-python workflow_market.py sync
+#### 5. 同步市场数据
+```bash
+python ./.trae/skills/workflow-market/workflow_market.py sync
+```
 
-# 显示统计
-python workflow_market.py stats
+#### 6. 显示统计
+```bash
+python ./.trae/skills/workflow-market/workflow_market.py stats
 ```
 
 ### Python API
+
 ```python
+# 确保添加到路径
+import sys
+from pathlib import Path
+sys.path.append(str(Path('.trae/skills/workflow-market').resolve()))
+
 from workflow_market import WorkflowMarket
 
 market = WorkflowMarket()
@@ -116,6 +89,17 @@ recommended = market.get_recommended()
 # 安装
 market.install("github-actions-docker-build")
 ```
+
+## 工作流分类
+
+| 分类 | 说明 | 示例 |
+|-----|------|------|
+| ci-cd | 持续集成/部署 | 自动测试、构建、发布 |
+| documentation | 文档生成 | README、API文档、博客 |
+| project-mgmt | 项目管理 | 站会、看板、报告 |
+| code-quality | 代码质量 | 审查、格式化、安全扫描 |
+| automation | 通用自动化 | 备份、同步、通知 |
+| ai-ml | AI/ML工作流 | 训练、推理、数据处理 |
 
 ## 索引结构
 

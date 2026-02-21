@@ -1,0 +1,10 @@
+name: test-architect
+description: 自动化测试架构师。自动检测项目类型，推荐或生成专用的测试技能（如 test-python-pytest）。
+version: 1.0.0
+commands:
+  - name: architect_test
+    description: 分析项目并推荐/生成测试技能
+    arguments:
+      - name: path
+        description: 项目根目录路径（可选，默认为当前目录）
+        required: false

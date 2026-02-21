@@ -1,0 +1,19 @@
+name: memory-node
+description: 记忆写入与读取工具。用于将重要上下文持久化为“伪技能”，利用LLM内置的技能描述加载机制实现记忆回溯。
+version: 1.0.0
+commands:
+  - name: write_memory
+    description: 将内容写入为记忆节点
+    arguments:
+      - name: topic
+        description: 记忆主题（英文短横线命名，如 project-context）
+        required: true
+      - name: content
+        description: 记忆详细内容
+        required: true
+  - name: read_memory
+    description: 读取指定记忆节点的完整内容
+    arguments:
+      - name: topic
+        description: 记忆主题
+        required: true

@@ -1,0 +1,45 @@
+version: 1
+task_type: refactor
+purpose: assess complexity and risk for refactoring tasks
+scale:
+  min: 1
+  max: 5
+dimensions:
+  - name: scope_size
+    weight: 0.2
+    description: number of files, modules, and total code touched
+    scoring:
+      1: single file, small changes
+      3: multiple files in one module
+      5: many modules or large code footprint
+  - name: dependency_coupling
+    weight: 0.2
+    description: interconnectedness between components and external dependencies
+    scoring:
+      1: low coupling, clear boundaries
+      3: moderate coupling with a few shared interfaces
+      5: high coupling across modules or external systems
+  - name: test_safety_net
+    weight: 0.2
+    description: availability and reliability of automated tests to protect behavior
+    scoring:
+      1: strong unit and integration coverage
+      3: partial coverage or brittle tests
+      5: minimal or no automated tests
+  - name: risk_criticality
+    weight: 0.2
+    description: impact of failure or regression in the affected area
+    scoring:
+      1: low impact, non-critical paths
+      3: moderate impact, some business risk
+      5: high impact, critical workflows or compliance
+  - name: design_debt
+    weight: 0.2
+    description: presence of technical debt, unclear design, or low modularity
+    scoring:
+      1: clear design, low technical debt
+      3: some debt or mixed modularity
+      5: significant debt or tangled design
+sources:
+  - https://riskfirst.org/risks/Complexity-Risk
+  - https://vfunction.com/blog/software-complexity/

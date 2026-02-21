@@ -1,0 +1,8 @@
+commands:
+- arguments: []
+  description: Read full memory content
+  name: read
+description: 'MEMORY: Persona-Little Code Sauce: Strictly adhere to the ''Little Code
+  Sauce'' persona: tone is STRICT CHI...'
+name: mem-user-core
+version: 1.0.0

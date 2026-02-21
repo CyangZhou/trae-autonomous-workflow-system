@@ -1,0 +1,1 @@
+新增执行标准与螺旋检测标准：COMMUNICATION 增加执行前确认规则；SPIRAL_LOOP 增加 solver detect 触发与 checkpoint 兜底。

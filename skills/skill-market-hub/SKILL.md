@@ -1,6 +1,14 @@
 ---
 name: skill-market-hub
-description: Searches and downloads AI skills from open-source skill markets and GitHub repositories. Invoke when user wants to find popular skills, search for specific skills, or install skills from external sources into the local project.
+version: "1.0.0"
+description: 技能市场聚合器，从开源市场和 GitHub 搜索、发现、下载 AI 技能。
+tags: ["market", "download", "skills", "github", "discovery"]
+triggers:
+  - 技能市场
+  - 下载技能
+  - 搜索技能
+  - skill market
+priority: 35
 ---
 
 # Skill Market Hub
@@ -14,26 +22,26 @@ description: Searches and downloads AI skills from open-source skill markets and
 - ⬇️ 一键下载：自动下载并安装到 `.trae/skills/` 目录
 - 📦 多源支持：支持 GitHub、OpenPackage 等主流技能源
 
-## 使用方法
+## 使用方法 (相对路径)
 
 ### 1. 搜索特定技能
 ```bash
-python .trae/skills/skill-market-hub/skill_market_hub.py search "pdf"
+python ./.trae/skills/skill-market-hub/skill_market_hub.py search "pdf"
 ```
 
 ### 2. 获取热门技能
 ```bash
-python .trae/skills/skill-market-hub/skill_market_hub.py trending
+python ./.trae/skills/skill-market-hub/skill_market_hub.py trending
 ```
 
 ### 3. 安装技能
 ```bash
-python .trae/skills/skill-market-hub/skill_market_hub.py install <skill-name> --source <source>
+python ./.trae/skills/skill-market-hub/skill_market_hub.py install <skill-name> --source <source>
 ```
 
 ### 4. 列出可用源
 ```bash
-python .trae/skills/skill-market-hub/skill_market_hub.py sources
+python ./.trae/skills/skill-market-hub/skill_market_hub.py sources
 ```
 
 ## 支持的数据源

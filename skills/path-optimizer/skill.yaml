@@ -1,0 +1,29 @@
+name: path-optimizer
+version: "1.0.0"
+description: 自动化检测与修复项目中的硬编码绝对路径，实现路径动态化与可移植性。支持扫描、分析及自动修复 Python 脚本中的路径依赖。
+
+triggers:
+  - "路径优化"
+  - "修复路径"
+  - "扫描路径"
+  - "path optimizer"
+  - "fix paths"
+  - "scan paths"
+
+category: "automation"
+tags:
+  - "path"
+  - "optimization"
+  - "portability"
+  - "hardcode"
+
+execution:
+  entry_point: "scripts/scan_paths.py"
+  scan_command: "python scripts/scan_paths.py"
+  fix_command: "python scripts/fix_paths.py"
+
+validation:
+  enabled: true
+  check_files:
+    - "scripts/scan_paths.py"
+    - "scripts/fix_paths.py"

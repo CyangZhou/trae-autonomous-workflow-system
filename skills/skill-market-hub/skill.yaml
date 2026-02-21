@@ -1,6 +1,9 @@
 name: skill-market-hub
 version: "1.0.0"
 description: 技能市场聚合器 - 从多个开源技能市场和GitHub仓库搜索、发现、下载AI技能到本地项目
+entry: skill_market_hub.py
+author: "Trae Team"
+dependencies: []
 triggers:
   - 技能市场
   - 下载技能

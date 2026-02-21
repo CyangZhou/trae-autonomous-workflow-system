@@ -1,0 +1,13 @@
+name: task-assessor
+description: 任务复杂度评估与方法生成器。强制评估任务并生成执行策略。
+version: 1.0.0
+commands:
+  - name: assess_task
+    description: 评估任务复杂度
+    arguments:
+      - name: task_desc
+        description: 任务描述
+        required: true
+      - name: task_type
+        description: 任务类型（refactor/feature/bugfix/doc）
+        required: true
